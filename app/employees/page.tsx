@@ -65,36 +65,6 @@ const employees = [
       { name: 'iPad Pro', type: 'Tablet', status: 'Pending' },
       { name: 'Wacom Tablet', type: 'Peripheral', status: 'Active' }
     ]
-  },
-  {
-    id: 4,
-    name: 'Lisa Chen',
-    email: 'lisa.chen@company.com',
-    phone: '+1 (555) 456-7890',
-    department: 'Finance',
-    position: 'Financial Analyst',
-    location: 'Chicago, IL',
-    startDate: '2022-11-05',
-    avatar: '/api/placeholder/40/40',
-    devices: [
-      { name: 'Surface Pro 9', type: 'Tablet', status: 'Inactive' },
-      { name: 'Surface Dock', type: 'Peripheral', status: 'Active' }
-    ]
-  },
-  {
-    id: 5,
-    name: 'David Brown',
-    email: 'david.brown@company.com',
-    phone: '+1 (555) 567-8901',
-    department: 'HR',
-    position: 'HR Coordinator',
-    location: 'Los Angeles, CA',
-    startDate: '2020-06-12',
-    avatar: '/api/placeholder/40/40',
-    devices: [
-      { name: 'Dell Laptop', type: 'Laptop', status: 'Active' },
-      { name: 'Samsung Galaxy', type: 'Mobile', status: 'Active' }
-    ]
   }
 ]
 
@@ -148,11 +118,11 @@ export default function EmployeesPage() {
             </p>
           </div>
           <div className="flex space-x-4">
-            <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+            <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
               <Download className="h-4 w-4 mr-2" />
               Export
             </button>
-            <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+            <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700">
               <Plus className="h-4 w-4 mr-2" />
               Add Employee
             </button>
@@ -171,14 +141,14 @@ export default function EmployeesPage() {
                 placeholder="Search employees..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500"
               />
             </div>
             <div>
               <select
                 value={filterDepartment}
                 onChange={(e) => setFilterDepartment(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md leading-5 bg-white"
               >
                 <option value="all">All Departments</option>
                 {departments.map(dept => (
@@ -202,7 +172,6 @@ export default function EmployeesPage() {
               transition={{ delay: index * 0.1 }}
               className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden"
             >
-              {/* Main Employee Info */}
               <div 
                 className="p-6 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                 onClick={() => toggleRowExpansion(employee.id)}
@@ -254,7 +223,6 @@ export default function EmployeesPage() {
                 </div>
               </div>
 
-              {/* Expanded Details */}
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
@@ -266,7 +234,6 @@ export default function EmployeesPage() {
                   >
                     <div className="p-6 bg-gray-50">
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {/* Contact Information */}
                         <div>
                           <h4 className="text-sm font-semibold text-gray-900 mb-3">
                             Contact Information
@@ -293,7 +260,6 @@ export default function EmployeesPage() {
                           </div>
                         </div>
 
-                        {/* Assigned Devices */}
                         <div>
                           <h4 className="text-sm font-semibold text-gray-900 mb-3">
                             Assigned Devices ({employee.devices.length})
@@ -317,6 +283,39 @@ export default function EmployeesPage() {
                                       </p>
                                     </div>
                                   </div>
-                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${\n                                    device.status === 'Active' \n                                      ? 'bg-green-100 text-green-800'\n                                      : device.status === 'Pending'\n                                      ? 'bg-yellow-100 text-yellow-800'\n                                      : 'bg-red-100 text-red-800'\n                                  }`}>
+                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                    device.status === 'Active' 
+                                      ? 'bg-green-100 text-green-800'
+                                      : device.status === 'Pending'
+                                      ? 'bg-yellow-100 text-yellow-800'
+                                      : 'bg-red-100 text-red-800'
+                                  }`}>
                                     {device.status}
-                                  </span>\n                                </div>\n                              )\n                            })}\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </motion.div>\n                )}\n              </AnimatePresence>\n            </motion.div>\n          )\n        })}\n      </div>\n\n      {filteredEmployees.length === 0 && (\n        <div className=\"text-center py-12\">\n          <User className=\"mx-auto h-12 w-12 text-gray-400\" />\n          <h3 className=\"mt-2 text-sm font-medium text-gray-900\">No employees found</h3>\n          <p className=\"mt-1 text-sm text-gray-500\">\n            Try adjusting your search or filter criteria.\n          </p>\n        </div>\n      )}\n    </div>\n  )\n}"
+                                  </span>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )
+        })}
+      </div>
+
+      {filteredEmployees.length === 0 && (
+        <div className="text-center py-12">
+          <User className="mx-auto h-12 w-12 text-gray-400" />
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No employees found</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Try adjusting your search or filter criteria.
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}
